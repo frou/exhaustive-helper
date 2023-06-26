@@ -3,7 +3,7 @@
  * TypeScript type-checking will fail if you don't.
  *
  * This function is primarily intended to be used in a `default` case when `switch`ing
- * on a [Discriminated Union](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes-func.html#discriminated-unions) value:
+ * on a [Discriminated Union](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes-func.html#discriminated-unions):
  *
  * ```ts
  * switch (processStatus.kind) {
@@ -19,8 +19,8 @@
  * }
  * ```
  *
- * ...but is similarly useful for dealing with Enum values. More generally, it can
- * sometimes be useful in other conditional code.
+ * ...but is similarly useful when dealing with an [Enum](https://www.typescriptlang.org/docs/handbook/enums.html).
+ * More generally, it can sometimes be useful in other conditional code.
  *
  * See [here](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#exhaustiveness-checking) for where the basic idea came from.
  */
