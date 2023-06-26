@@ -14,4 +14,3 @@ As such, it is available from the Deno third-party module registry:
 import exhaustive from "https://deno.land/x/exhaustive/mod.ts"
 ```
 
-[![badge](https://shield.deno.dev/x/exhaustive)](https://deno.land/x/exhaustive)
