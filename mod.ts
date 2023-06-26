@@ -24,7 +24,7 @@
  *
  * See [here](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#exhaustiveness-checking) for where the basic idea came from.
  */
-export default function(unhandled: never): never {
+export default function exhaustive(unhandled: never): never {
   // @ts-expect-error: We're in Neverland if this function body executes.
   let stringRepr: string = unhandled.toString()
   if (stringRepr == "[object Object]") {
