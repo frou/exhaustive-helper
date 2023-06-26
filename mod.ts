@@ -1,8 +1,8 @@
 /**
- * Helps you to statically check that you explicitly handle all possible values.
+ * This function helps you to statically check that you explicitly handle all possible values.
  * TypeScript type-checking will fail if you don't.
  *
- * This function is primarily intended to be used in a `default` case when `switch`ing
+ * It is primarily intended to be used in a `default` case when `switch`ing
  * on a [Discriminated Union](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes-func.html#discriminated-unions):
  *
  * ```ts
@@ -19,20 +19,29 @@
  * }
  * ```
  *
- * ...but is similarly useful when dealing with an [Enum](https://www.typescriptlang.org/docs/handbook/enums.html).
- * More generally, it can sometimes be useful in other conditional code.
+ * ...but is similarly useful for doing the same on an [Enum](https://www.typescriptlang.org/docs/handbook/enums.html).
+ * It might sometimes be useful in other conditional code too.
  *
  * See [here](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#exhaustiveness-checking) for where the basic idea came from.
  */
 export default function(unhandled: never): never {
-  // @ts-expect-error: We're in Neverland if this function body executes.
-  let stringRepr: string = unhandled.toString()
-  if (stringRepr == "[object Object]") {
-    // Try to get to a more actionable representation to include in the error message.
+  // NOTE: If this function body executes at all, something has gone wrong with the
+  // user's development process, because code that fails the type-checker is somehow
+  // being run anyway.
+
+  let stringRepr: string | undefined =
+    // @ts-expect-error: We're in Neverland
+    unhandled?.toString()
+  if (
+    stringRepr === undefined ||
+    // The object lacks a meaningful toString() or Symbol.toStringTag
+    stringRepr === "[object Object]"
+  ) {
     try {
       stringRepr = JSON.stringify(unhandled)
-    } // deno-lint-ignore no-empty
-    catch {}
+    } catch (e) {
+      stringRepr = `${stringRepr} (${e})`
+    }
   }
 
   throw new Error(
