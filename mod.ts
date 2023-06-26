@@ -1,25 +1,34 @@
 /**
- * This function helps you to statically check that you explicitly handle all possible values.
+ * The `exhaustive` function helps you to statically check that you explicitly handle all possible values.
  * TypeScript type-checking will fail if you don't.
  *
  * It is primarily intended to be used in a `default` case when `switch`ing
- * on a [Discriminated Union](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes-func.html#discriminated-unions):
+ * upon a [Discriminated Union](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes-func.html#discriminated-unions):
  *
  * ```ts
- * switch (processStatus.kind) {
- *   case "Exited":
- *     return processStatus.code == 0
- *   case "Signaled":
- *     return false
- *   // Forgot to handle "Stopped"
- *   default:
- *     // TypeScript type-checking will fail with the error:
- *     // Argument of type '{ kind: "Stopped"; signum: number; }' is not assignable to parameter of type 'never'.
- *     return exhaustive(processStatus)
+ * type ProcessExitReason =
+ *   | { kind: "Exited",   code: number }
+ *   | { kind: "Signaled", signal: number }
+ *   | { kind: "Stopped",  signal: number }
+ *
+ * function isCleanExit(reason: ProcessExitReason): boolean {
+ *   switch (reason.kind) { // In this switch, we forgot to handle "Stopped"
+ *     case "Exited":
+ *       return reason.code == 0
+ *     case "Signaled":
+ *       return false
+ *     default:
+ *       // TypeScript type-checking will fail with the error:
+ *       //   Argument of type '{ kind: "Stopped"; signal: number; }' is not assignable to parameter of type 'never'.
+ *       //
+ *       // After adding a case to handle that, type-checking will succeed.
+ *       //
+ *       return exhaustive(reason)
+ *   }
  * }
  * ```
  *
- * ...but is similarly useful for doing the same on an [Enum](https://www.typescriptlang.org/docs/handbook/enums.html).
+ * It is similarly useful for doing the same upon an [Enum](https://www.typescriptlang.org/docs/handbook/enums.html).
  * It might sometimes be useful in other conditional code too.
  *
  * See [here](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#exhaustiveness-checking) for where the basic idea came from.
