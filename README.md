@@ -1,6 +1,8 @@
 `exhaustive` is a function to help statically check that you explicitly handle all possible values.
 
-See its [doc comment](https://github.com/frou/exhaustive-helper/blob/master/mod.ts) for a longer explanation. TypeScript's `never` type is the novel thing that makes this work.
+See its [documentation](https://deno.land/x/exhaustive/mod.ts?s=exhaustive) for a longer explanation.
+
+TypeScript's `never` type is the novel thing that makes this work.
 
 ---
 
