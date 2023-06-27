@@ -49,7 +49,7 @@ export default function(unhandled: never): never {
     try {
       stringRepr = JSON.stringify(unhandled)
     } catch (e) {
-      stringRepr = `${stringRepr} (${e})`
+      stringRepr = `${stringRepr}. Incidentally, JSON.stringify on that value failed: ${e}`
     }
   }
 
